@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-12">
+            <h1>エラーページ</h1>
+            <p>
+                うまく処理されませんでした。ホームは
+                <a href="{% url 'index' %}">こちら</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

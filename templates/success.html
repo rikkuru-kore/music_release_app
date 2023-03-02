@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Thank you!</h1>
+            <p>メールアドレスにデータを送信致しました。</p>
+            <p><a href="{% url 'index' %}">ホームに戻る</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

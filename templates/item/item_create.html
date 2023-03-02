@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% block content %}
+{% if items %}
+<h1 class="h3 mb-3 fw-normal">Edit</h1>
+<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger w-25 mb-3">削除</button>
+{% else %}
+<h1 class="h3 mb-3 fw-normal">{%if division%}Music{%else%}Tab{%endif%} Create</h1>
+{% endif %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-floating">
+        {{form.title}}
+        <label for="floatingInput">{{form.title.label}}</label>
+    </div>
+    <div class="form-floating">
+        {{form.artist}}
+        <label for="floatingInput">{{form.artist.label}}</label>
+    </div>
+    <div class="form-floating">
+        {{form.text}}
+        <label for="floatingInput">{{form.text.label}}</label>
+    </div>
+    {% if not division %}
+    <div class="form-floating">
+        {{form.level}}
+        <label for="floatingInput">{{form.level.label}}</label>
+    </div>
+    {% endif %}
+    <div class="form-floating">
+        {{form.price}}
+        <label for="floatingInput">{{form.price.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.volume}}
+      <label for="floatingInput">{{form.volume.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.url}}
+      <label for="floatingInput">{{form.url.label}}</label>
+    </div>
+    <div class="form-floating">
+        {{form.division}}
+        <label for="floatingInput">{{form.division.label}}</label>
+    </div>
+
+    <div class="my-3">アートワーク{{form.artwork}}</div>
+    {% if division %}
+    <div class="mb-3">楽曲{{form.music}}</div>
+    {% else %}
+    <div class="mb-3">Tab譜{{form.tab}}</div>
+    {% endif %}
+    <div class="mb-3">写真{{form.image}}</div>
+    <div class="form-check mb-3">
+      {{form.publish}}
+      <label class="form-check-label">{{form.publish.label}}</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">作成</button>
+</form>
+
+<!-- Modal -->
+{% if tab%}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tab Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Could you delete this tab?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'tab_delete' id=tab.id%}" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

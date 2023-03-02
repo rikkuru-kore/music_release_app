@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="row">
+    <div class="col-md-4 text-center justify-content-center mx-auto">
+        <h1 class="h3 mb-3 fw-normal">メールアドレス入力</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                {{form.email}}
+                <label for="floatingInput">{{form.email.label}}</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{form.confirm_email}}
+                <label for="floatingInput">{{form.confirm_email.label}}</label>
+            </div>
+            {% if form.errors %}
+                {% for field in form.errors.values %}
+                    {% for error in field %}
+                        <p class="text-start">{{ error|escape}}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Check Out</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="mb-3">{%if division %}楽曲{%else%}Tab譜{%endif%}一覧</h2>
+<a href="{% url 'item_create' division=division%}" class="btn btn-primary w-25 mb-3">作成</a>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">title</th>
+                <th scope="col">artist</th>
+                <th scope="col">price</th>
+                <th scope="col">sale</th>
+                <th scope="col">edit</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr>
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.title}}</td>
+                <td>{{item.artist}}</td>
+                <td>¥{{item.price}}</td>
+                <td>{{item.sale}}</td>
+                <td><a href="{% url 'item_edit' id=item.id division=item.division%}" class="btn btn-secondary btn-sm">編集</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                {% if item.artwork %}
+                <img src="{{item.artwork.url}}" class="d-block w-100 img-fluid">
+                {% endif %}
+              </div>
+              {% if item.image %}
+              <div class="carousel-item">
+                <img src="{{item.image.url}}" class="d-block w-100 img-fluid">
+              </div>
+              {% endif %}
+            </div>
+            {% if item.image %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+          </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <span class="badge bg-secondary mb-3">{%if item.division %}楽曲{%else%}Tab譜{%endif%}</span>
+        {% if not item.division %}
+        <span class="badge mb-3" style="background-color:{% if item.level == 1%}#FEBC18{% elif item.level == 2%}#5287AC{% elif item.level == 3%}#5D9339{% elif item.level == 4%}#503D33{% elif item.level == 5%}#5F2D8B{% elif item.level == 6%}#ED453A{%endif%};">レベル{{item.level}}</span>
+        {% endif %}
+        <h1 class="h3 mb-3 fw-normal">{{item.title}} / {{item.artist}}</h1>
+        <p class="mb-3">{{item.text}}</p>
+        {% if item.url %}
+        <p class="mb-3">{%if item.division %}再生時間{%else%}枚数{%endif%}：{{item.volume}}</p>
+        {% endif %}
+        {% if item.url %}
+        <p class="mb-3">試聴：<a href="{{item.url}}">{{item.url}}</a></p>
+        {% endif %}
+        <h2 class="text-end mb-3">¥{{item.price}}</h2>
+        <p class="mb-3 text-black-50">※Check Out前に入力するメールアドレスにデータを送信します。入力に誤りがないようにお願いします。</p>
+        <p class="mb-3 text-black-50">※支払い完了後に即時データを送信するため、画面の遷移が遅くなる可能性がございます。画面を閉じないようにお願いします。</p>
+        <form method="POST">
+            {% csrf_token %}
+            <a class="w-100 btn btn-lg btn-primary mb-3" href="{% url 'input_email' id=item.id%}">Check out</a>
+        </form>
+        <p class="mb-3 text-black-50">※Tab譜・楽曲の転売・転載は禁止です。ご理解頂けますようお願いします。</p>
+    </div>
+</div>
+
+{% endblock %}

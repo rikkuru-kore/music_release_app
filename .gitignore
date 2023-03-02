@@ -1,0 +1,9 @@
+# dir
+media
+music_release
+secrets
+__pycache__
+
+# file
+db.sqlite3
+test.py
