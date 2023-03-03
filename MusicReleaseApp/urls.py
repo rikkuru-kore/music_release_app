@@ -14,4 +14,8 @@ urlpatterns = [
     path('pay/success/',views.pay_success,name='pay_success'),
     path('pay/cancel/',views.pay_cancel,name='pay_cancel'),
     path('create_checkout_session/<int:order_id>/',views.create_checkout_session,name='create_checkout_session'),
+    path('inquiry_create/',views.inquiry_create,name='inquiry_create'),
+    path('inquiry_list/',views.inquiry_list,name='inquiry_list'),
+    path('inquiry_edit/<int:inquiry_id>/',views.inquiry_edit,name='inquiry_edit'),
+    path('inquiry_delete/<int:inquiry_id>/',views.inquiry_delete,name='inquiry_delete'),
 ]

@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+<h2 class="mb-3">お問い合わせ一覧</h2>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">name</th>
+                <th scope="col">email</th>
+                <th scope="col">title</th>
+                <th scope="col">is_replied</th>
+                <th scope="col">edit</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for inquiry in inquiries %}
+              <tr>
+                <th scope="row">{{item.id}}</th>
+                <td>{{inquiry.name | truncatechars:8}}</td>
+                <td>{{inquiry.email | truncatechars:8}}</td>
+                <td>{{inquiry.title | truncatechars:8}}</td>
+                <td>{% if inquiry.is_replied %}○{% else %}×{% endif %}</td>
+                <td><a href="{% url 'inquiry_edit' inquiry_id=inquiry.id %}" class="btn btn-secondary btn-sm">編集</a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block content %}
+{% if inquiry %}
+<h1 class="h3 mb-3 fw-normal">Inquiry Edit</h1>
+<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger w-25 mb-3">削除</button>
+{% else %}
+<h1 class="h3 mb-3 fw-normal">Inquiry</h1>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-floating">
+        {{form.name}}
+        <label for="floatingInput">{{form.name.label}}</label>
+    </div>
+    <div class="form-floating">
+        {{form.email}}
+        <label for="floatingInput">{{form.email.label}}</label>
+    </div>
+    <div class="form-floating">
+        {{form.title}}
+        <label for="floatingInput">{{form.title.label}}</label>
+    </div>
+    <div class="form-floating mb-3">
+        {{form.text}}
+        <label for="floatingInput">{{form.text.label}}</label>
+    </div>
+    {% if inquiry %}
+    <div class="form-floating mb-3">
+        {{form.reply}}
+        <label for="floatingInput">{{form.reply.label}}</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">返信</button>
+    {% else %}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">送信</button>
+    {% endif %}
+</form>
+
+<!-- Modal -->
+{% if inquiry%}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Could you delete this inquiry?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <a href="{% url 'inquiry_delete' inquiry_id=inquiry.id%}" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

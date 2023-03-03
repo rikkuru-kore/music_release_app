@@ -1,13 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Items,Orders
-from .forms import ItemCreateForm,EmailForm
+from .models import Items,Orders,Inquiry
+from .forms import ItemCreateForm,EmailForm,InquiryForm
 from .email_handler import send_mail
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-
+from django.contrib import messages
 from datetime import datetime
 from pytz import timezone
 import stripe
@@ -99,7 +99,7 @@ def pay_success(request):
         raise Http404
     item = Items.objects.get(id=order.item.id)
     gmail = 'garidebu.max120@gmail.com'
-    password = 'trpbktgodlmqidjc' # secretにする
+    password = settings.GMAIL_PASSWORD # secretにする
     if item.division:
         division = '楽曲'
         file = item.music
@@ -176,6 +176,81 @@ def create_checkout_session(request,order_id):
         cancel_url= my_url + f'/pay/cancel/?order_id={order.id}&date={date}'
     )
     return redirect(checkout_session.url)
+
+def inquiry_create(request):
+    form = InquiryForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        gmail = 'garidebu.max120@gmail.com'
+        to = 'nano.max120@gmail.com'
+        password = settings.GMAIL_PASSWORD # secretにする
+        subject = f'FLOMS問い合わせ「{form.cleaned_data["title"]}」'
+        text = f"""
+マスター
+
+お疲れ様です。
+
+お問い合わせが来ました。
+
+名前：{form.cleaned_data["name"]}
+メールアドレス：{form.cleaned_data["email"]}
+タイトル：{form.cleaned_data["title"]}
+本文：{form.cleaned_data["text"]}
+
+https://flat-land.site/
+
+Flat Land Online Music Store
+        """
+        send_mail(gmail=gmail, password=password, to=to, subject=subject,text=text,filename=None)
+        messages.info(request,'お問い合わせを管理者に送信しました。')
+        return redirect(index)
+    return render(request,'inquiry_create.html',context={'form':form})
+
+@login_required
+def inquiry_list(request):
+    inquiries = Inquiry.objects.all()
+    return render(request,'inquiry_list.html',context={'inquiries':inquiries})
+
+@login_required
+def inquiry_edit(request,inquiry_id):
+    inquiry = get_object_or_404(Inquiry, pk=inquiry_id)
+    if inquiry.is_replied:
+        text = inquiry.reply
+    else:
+        text = f"""
+{inquiry.name}様
+
+いつもお世話になっております。
+
+この度はお問合せ頂きありがとうございます。
+「{inquiry.text}」について回答致します。
+
+
+
+よろしくお願い致します。
+
+Flat Land Online Music Store
+        """
+    form = InquiryForm(request.POST or None,instance=inquiry,initial={
+        'reply':text
+    })
+    if form.is_valid():
+        inquiry.is_replied = True
+        inquiry.save()
+        gmail = 'garidebu.max120@gmail.com'
+        to = inquiry.email
+        password = settings.GMAIL_PASSWORD # secretにする
+        subject = f'FLOMSお問い合わせ回答「{inquiry.title}」'
+        text = form.cleaned_data["reply"]
+        send_mail(gmail=gmail, password=password, to=to, subject=subject,text=text,filename=None)
+        return redirect(inquiry_list)
+    return render(request,'inquiry_create.html',context={'form':form,'inquiry':inquiry})
+
+@login_required
+def inquiry_delete(request,inquiry_id):
+    inquiry = get_object_or_404(Inquiry,id=inquiry_id)
+    inquiry.delete()
+    return redirect(inquiry_list)
 
 def show_error_page(request,exception):
     return render(request,'404.html')

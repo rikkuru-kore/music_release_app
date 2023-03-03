@@ -1,5 +1,5 @@
 from django import forms
-from .models import Items
+from .models import Items,Inquiry
 from django.core.exceptions import ValidationError
 from django.core import validators
 
@@ -36,3 +36,14 @@ class EmailForm(forms.Form):
         confirm_email = cleaned_data.get('confirm_email')
         if email != confirm_email:
             raise forms.ValidationError('メールアドレスが一致しません。')
+        
+class InquiryForm(forms.ModelForm):
+    name = forms.CharField(label='名前',widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'名前'}))
+    email = forms.EmailField(label='メールアドレス',widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'メールアドレス'}))
+    title = forms.CharField(label='タイトル',widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'タイトル'}))
+    text = forms.CharField(label='内容',widget=forms.Textarea(attrs={'class': 'form-control','placeholder':'内容','style': 'height: 200px;'}))
+    reply = forms.CharField(label='返信内容',required=False,widget=forms.Textarea(attrs={'class': 'form-control','placeholder':'返信内容','style': 'height: 600px;'}))
+    
+    class Meta:
+        model = Inquiry
+        fields = ('name','email','title','text','reply')

@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-{% if items %}
+{% if item %}
 <h1 class="h3 mb-3 fw-normal">Edit</h1>
 <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger w-25 mb-3">削除</button>
 {% else %}
@@ -58,20 +58,20 @@
 </form>
 
 <!-- Modal -->
-{% if tab%}
+{% if item%}
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Tab Delete</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Could you delete this tab?
+          Could you delete this item?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <a href="{% url 'tab_delete' id=tab.id%}" class="btn btn-danger">Delete</a>
+          <a href="{% url 'item_delete' id=item.id%}" class="btn btn-danger">Delete</a>
         </div>
       </div>
     </div>

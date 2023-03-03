@@ -18,10 +18,15 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR / 'templates'
 
-# 開発環境用
-# load_dotenv(BASE_DIR / "secrets/.env.dev")
-# 本番環境用
-load_dotenv(BASE_DIR / "secrets/.env.prod")
+# 開発環境にする際はFalseを設定
+is_released = True
+
+if is_released:
+    # 本番環境用
+    load_dotenv(BASE_DIR / "secrets/.env.prod")
+else:
+    # 開発環境用
+    load_dotenv(BASE_DIR / "secrets/.env.dev")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -81,24 +86,23 @@ WSGI_APPLICATION = "MusicReleaseProject.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-DATABASES = {
+if is_released:
+   DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "djangodb",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "bazz",
         "USER": os.getenv('USER'),
         "PASSWORD": os.getenv('PASSWORD'),
         "HOST": os.getenv('HOST'),
-        "PORT": 3306,
+        "PORT": 5432,
+    }} 
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -145,3 +149,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 MY_URL = os.getenv('MY_URL')
+GMAIL_PASSWORD = os.getenv('GMAIL_PASSWORD')

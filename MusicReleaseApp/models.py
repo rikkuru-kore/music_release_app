@@ -31,3 +31,17 @@ class Orders(models.Model):
     
     class Meta:
         db_table = 'orders'
+        
+class Inquiry(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    title = models.CharField(max_length=140,blank=True,null=True)
+    text = models.TextField()
+    reply = models.TextField(blank=True,null=True)
+    is_replied = models.BooleanField(default=False,blank=True,null=True)
+    checkout_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'inquiry'
+    
