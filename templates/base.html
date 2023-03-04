@@ -15,6 +15,8 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"
         ></script>
+        <link rel="stylesheet" href="https://kit.fontawesome.com/8529733e16.css" crossorigin="anonymous" />
+        <script src="https://kit.fontawesome.com/8529733e16.js" crossorigin="anonymous"></script>
         <title>Flat Land Online Music Store</title>
     </head>
     <body>
@@ -37,6 +39,31 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{% url 'index'%}">Home</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Info</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="https://www.youtube.com/channel/UCfeawbWoXpgEusKuHnmZ9hw">
+                                        <i class="fa-brands fa-youtube"></i>
+                                        youtube
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://z-p15.www.instagram.com/koreriku/">
+                                        <i class="fa-brands fa-instagram"></i>
+                                        instagram
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://twitter.com/RikuKore">
+                                        <i class="fa-brands fa-twitter"></i>
+                                        twitter
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'specified_commercial_transaction_law'%}">特定商取引法に基づく表記</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{% url 'inquiry_create'%}">Inquiry</a>
                         </li>
@@ -54,7 +81,7 @@
                         {% endif %}
                     </ul>
                     <form action="{% url 'search' %}" method="GET" class="d-flex">
-                        <input class="form-control me-2" type="text" name="query" placeholder="キーワードを入力" {%if query %}value={{query}}{%endif%} />
+                        <input class="form-control me-2" type="text" name="query" placeholder="キーワードを入力" {%if query %}value="{{query}}{%endif%}" />
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
@@ -65,19 +92,15 @@
             <div class="text_center mb-3 py-5">
                 <h1>Flat Land Online Music Store</h1>
             </div>
-            {% if messages %}
-                {% for message in messages %}
-                    <h5 class="mb-3">{{message}}</h5>
-                {% endfor %}
-            {% endif %}
-
-            {% block content %} {% endblock%}
+            {% if messages %} {% for message in messages %}
+            <h5 class="mb-3">{{message}}</h5>
+            {% endfor %} {% endif %} {% block content %} {% endblock%}
         </div>
     </body>
 
-    <footer class="footer text-center pt-2 ">
+    <footer class="footer pt-2">
         <div class="row">
-            <div class="col">Copyright @ 2023 Flat Land</div>
+            <div class="col text-center">Copyright @ 2023 Flat Land</div>
         </div>
     </footer>
 </html>

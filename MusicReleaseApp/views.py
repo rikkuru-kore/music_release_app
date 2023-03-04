@@ -252,5 +252,8 @@ def inquiry_delete(request,inquiry_id):
     inquiry.delete()
     return redirect(inquiry_list)
 
+def specified_commercial_transaction_law(request):
+    return render(request,'specified_commercial_transaction_law.html')
+
 def show_error_page(request,exception):
     return render(request,'404.html')

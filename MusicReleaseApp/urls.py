@@ -18,4 +18,5 @@ urlpatterns = [
     path('inquiry_list/',views.inquiry_list,name='inquiry_list'),
     path('inquiry_edit/<int:inquiry_id>/',views.inquiry_edit,name='inquiry_edit'),
     path('inquiry_delete/<int:inquiry_id>/',views.inquiry_delete,name='inquiry_delete'),
+    path('specified_commercial_transaction_law',views.specified_commercial_transaction_law,name='specified_commercial_transaction_law'),
 ]
