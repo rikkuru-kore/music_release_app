@@ -45,6 +45,7 @@ def item_create(request,division):
         form = ItemCreateForm(request.POST or None,request.FILES or None)
     if form.is_valid():
         form.save()
+        print(form.save())
         if division:
             return redirect(music_maintenance)
         else:
@@ -75,6 +76,7 @@ def item_delete(request,id):
 
 def detail_item(request,id):
     item = get_object_or_404(Items, pk=id)
+    print(item.artwork.name)
     if not item.publish:
         raise Http404
     return render(request,'item/detail_item.html',context={'item':item})
@@ -98,8 +100,9 @@ def pay_success(request):
     if not order.tentative_sale == date:
         raise Http404
     item = Items.objects.get(id=order.item.id)
-    gmail = 'garidebu.max120@gmail.com'
+    gmail = 'flatland.music1@gmail.com'
     password = settings.GMAIL_PASSWORD # secretにする
+    print(gmail,password)
     if item.division:
         division = '楽曲'
         file = item.music
@@ -181,7 +184,7 @@ def inquiry_create(request):
     form = InquiryForm(request.POST or None)
     if form.is_valid():
         form.save()
-        gmail = 'garidebu.max120@gmail.com'
+        gmail = 'flatland.music1@gmail.com'
         to = 'nano.max120@gmail.com'
         password = settings.GMAIL_PASSWORD # secretにする
         subject = f'FLOMS問い合わせ「{form.cleaned_data["title"]}」'
@@ -237,7 +240,7 @@ Flat Land Online Music Store
     if form.is_valid():
         inquiry.is_replied = True
         inquiry.save()
-        gmail = 'garidebu.max120@gmail.com'
+        gmail = 'flatland.music1@gmail.com'
         to = inquiry.email
         password = settings.GMAIL_PASSWORD # secretにする
         subject = f'FLOMSお問い合わせ回答「{inquiry.title}」'

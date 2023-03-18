@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = BASE_DIR / 'templates'
 
 # 開発環境にする際はFalseを設定
-is_released = True
+is_released = False
 
 if is_released:
     # 本番環境用
@@ -35,7 +35,7 @@ else:
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = False
 
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
 
@@ -138,7 +138,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+# STATIC_URL = "static/"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -149,4 +149,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
 MY_URL = os.getenv('MY_URL')
-GMAIL_PASSWORD = os.getenv('GMAIL_PASSWORD')
+GMAIL_PASSWORD = 'aqojjbwxysomezih'
+
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
+# AWS_STORAGE_BUCKET_NAME = 'flat-land-contents'
+# AWS_LOCATION = 'media'
+# AWS_S3_SIGNATURE_VERSION = 's3v4'
+# AWS_S3_REGION_NAME = 'ap-northeast-1'
+# AWS_DEFAULT_ACL = None
